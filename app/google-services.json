@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "876431255275",
+    "firebase_url": "https://welove-8617d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "welove-8617d",
+    "storage_bucket": "welove-8617d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876431255275:android:5759a4ba838e3c6d1140ae",
+        "android_client_info": {
+          "package_name": "in.demo.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876431255275-j7911sejg0e5c40mcru9hk2tienkd255.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.demo.myapplication",
+            "certificate_hash": "1f2efd8bd3f4533d14800a016871d3b222a41238"
+          }
+        },
+        {
+          "client_id": "876431255275-sledc060pqe8nrqr953m0fon9ujjke14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdXp6xWSWC22JEw5AbIsstlRi8h9wXHKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876431255275-sledc060pqe8nrqr953m0fon9ujjke14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,30 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".Fragments.MatchedFragment">
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appBarLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#FFFFFF"
+		app:layout_constraintTop_toTopOf="parent"/>
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewMatched"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/appBarLayout"
+		android:layout_marginTop="08dp"
+		android:layout_marginBottom="01dp"
+		android:paddingStart="00dp"
+		android:paddingEnd="0dp"
+		android:paddingBottom="0dp"
+		app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+		app:spanCount="2"
+		tools:listitem="@layout/item_user" />
+
+</RelativeLayout>

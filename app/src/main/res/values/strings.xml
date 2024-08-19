@@ -1,0 +1,79 @@
+<resources>
+	<string name="app_name">My Application</string>
+
+	<string-array name="height_options">
+		<item>150 cm</item>
+		<item>151 cm</item>
+		<item>152 cm</item>
+		<item>153 cm</item>
+		<item>154 cm</item>
+		<item>155 cm</item>
+		<item>156 cm</item>
+		<item>157 cm</item>
+		<item>158 cm</item>
+		<item>159 cm</item>
+		<item>160 cm</item>
+		<item>161 cm</item>
+		<item>162 cm</item>
+		<item>163 cm</item>
+		<item>164 cm</item>
+		<item>165 cm</item>
+		<item>166 cm</item>
+		<item>167 cm</item>
+		<item>168 cm</item>
+		<item>169 cm</item>
+		<item>170 cm</item>
+		<item>171 cm</item>
+		<item>172 cm</item>
+		<item>173 cm</item>
+		<item>174 cm</item>
+		<item>175 cm</item>
+		<item>176 cm</item>
+		<item>177 cm</item>
+		<item>178 cm</item>
+		<item>179 cm</item>
+		<item>180 cm</item>
+		<item>181 cm</item>
+		<item>182 cm</item>
+		<item>183 cm</item>
+		<item>184 cm</item>
+		<item>185 cm</item>
+		<item>186 cm</item>
+		<item>187 cm</item>
+		<item>188 cm</item>
+		<item>189 cm</item>
+		<item>190 cm</item>
+		<item>191 cm</item>
+		<item>192 cm</item>
+		<item>193 cm</item>
+		<item>194 cm</item>
+		<item>195 cm</item>
+		<item>196 cm</item>
+		<item>197 cm</item>
+		<item>198 cm</item>
+		<item>199 cm</item>
+		<item>200 cm</item>
+	</string-array>
+
+	<string-array name="mother_tongue_options">
+		<item>Telugu</item>
+		<item>Hindi</item>
+		<item>English</item>
+		<item>Tamil</item>
+		<item>KonKani</item>
+		<item>Bengali</item>
+		<item>punjab</item>
+		<item>Assamese</item>
+		<item>Marathi</item>
+		<item>Kannada</item>
+		<item>Malyalam</item>
+		<item>Urdu</item>
+		<item>Gujarathi</item>
+		<item>Odia</item>
+
+	</string-array>
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

@@ -1,0 +1,233 @@
+<androidx.cardview.widget.CardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	app:cardCornerRadius="30dp"
+	app:cardElevation="4dp"
+	app:cardBackgroundColor="@color/white"
+	app:cardUseCompatPadding="true">
+
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<ViewFlipper
+			android:id="@+id/viewFlipper"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:flipInterval="3000"
+			android:autoStart="true"
+			android:inAnimation="@anim/slide_in_right"
+			android:outAnimation="@anim/slide_out_left">
+
+			<ImageView
+				android:id="@+id/image11"
+				android:visibility="gone"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scaleType="centerCrop"
+
+				/>
+		<ImageView
+			android:id="@+id/image22"
+			android:visibility="gone"
+			android:layout_width="match_parent"
+			android:scaleType="centerCrop"
+			android:layout_height="match_parent"
+			/>
+		<ImageView
+			android:id="@+id/image33"
+			android:visibility="gone"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:scaleType="centerCrop"
+			/>
+		<ImageView
+			android:id="@+id/image44"
+			android:visibility="gone"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:scaleType="centerCrop"
+			/>
+
+		</ViewFlipper>
+
+		<RelativeLayout
+			android:id="@+id/pub"
+			android:layout_width="match_parent"
+			android:layout_height="101dp"
+			android:layout_alignBottom="@+id/viewFlipper"
+			android:layout_gravity="bottom"
+			android:layout_marginBottom="32dp"
+			android:padding="8dp">
+
+			<TextView
+				android:id="@+id/username"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+				android:layout_marginStart="9dp"
+				android:layout_marginTop="08dp"
+				android:shadowColor="@color/black"
+				android:shadowDx="1"
+				android:shadowDy="1"
+				android:shadowRadius="1"
+				android:text="Vishal"
+				android:textColor="@color/white"
+				android:textSize="22sp"
+				android:textStyle="bold"
+				android:visibility="visible" />
+
+			<TextView
+				android:id="@+id/age"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+				android:layout_marginStart="1dp"
+				android:layout_marginTop="10dp"
+				android:layout_toEndOf="@+id/username"
+				android:background="@drawable/age_border"
+				android:fontFamily="serif-monospace"
+				android:gravity="center|center_horizontal"
+				android:padding="02dp"
+				android:shadowColor="@color/black"
+				android:shadowDx="1"
+				android:shadowDy="1"
+				android:shadowRadius="1"
+				android:text="age"
+				android:textColor="@color/white"
+				android:textSize="16sp"
+				android:textStyle="normal|bold"
+				android:visibility="visible" />
+
+			<ImageView
+				android:id="@+id/online_status"
+				android:layout_width="15dp"
+				android:layout_height="15dp"
+				android:layout_marginTop="16dp"
+				android:layout_marginStart="06dp"
+				android:layout_toEndOf="@+id/age"
+				android:src="@drawable/ic_circle"
+				tools:ignore="ContentDescription"
+				android:visibility="gone"/>
+			<ImageView
+				android:id="@+id/offline_status"
+				android:layout_width="15dp"
+				android:layout_height="15dp"
+				android:layout_marginTop="16dp"
+				android:layout_marginStart="06dp"
+				android:layout_toEndOf="@+id/age"
+				android:src="@drawable/ic_circle1"
+				tools:ignore="ContentDescription" />
+
+			<TextView
+				android:id="@+id/job"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/age"
+				android:layout_alignParentStart="true"
+				android:layout_marginStart="8dp"
+				android:layout_marginTop="4dp"
+				android:padding="02dp"
+				android:shadowColor="@color/black"
+				android:shadowDx="1"
+				android:shadowDy="1"
+				android:shadowRadius="1"
+				android:text="job"
+				android:textColor="@color/white"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				android:visibility="visible" />
+
+			<TextView
+				android:id="@+id/state"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/age"
+				android:layout_marginStart="2dp"
+				android:layout_marginTop="4dp"
+				android:layout_toEndOf="@+id/job"
+				android:padding="02dp"
+				android:shadowColor="@color/black"
+				android:shadowDx="1"
+				android:shadowDy="1"
+				android:shadowRadius="1"
+				android:text="state"
+				android:textColor="@color/white"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				android:visibility="visible" />
+
+		</RelativeLayout>
+
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentEnd="true"
+			android:layout_marginTop="355dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="vertical">
+
+			<ImageView
+				android:id="@+id/dislike_button"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
+				android:layout_marginTop="02dp"
+				android:src="@drawable/dislike" />
+
+			<ImageView
+				android:id="@+id/like_button"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
+				android:layout_marginTop="02dp"
+				android:src="@drawable/like" />
+
+			<ImageView
+				android:id="@+id/profileview"
+				android:layout_width="55dp"
+				android:layout_height="55dp"
+				android:layout_marginTop="02dp"
+				android:src="@drawable/info" />
+		</LinearLayout>
+
+		<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:cardview="http://schemas.android.com/apk/res-auto"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="24dp"
+			cardview:cardBackgroundColor="#B69595"
+			cardview:cardCornerRadius="10dp"
+			cardview:cardElevation="4dp">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:padding="4dp">
+
+				<ImageView
+					android:layout_width="25dp"
+					android:layout_height="25dp"
+					android:layout_marginEnd="2dp"
+					android:src="@drawable/ic_location" />
+
+				<TextView
+					android:id="@+id/kmtext"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginEnd="08dp"
+					android:text="10 km from you"
+					android:textColor="@android:color/white"
+					android:textSize="14sp" />
+
+			</LinearLayout>
+		</androidx.cardview.widget.CardView>
+	</RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:padding="12dp"
+	android:layout_height="80dp"
+	app:layout_constraintCircleRadius="12dp">
+
+	<de.hdodenhof.circleimageview.CircleImageView
+		android:id="@+id/profile_image"
+		android:layout_width="46dp"
+		android:layout_height="46dp"
+		android:layout_marginStart="04dp"
+		android:layout_marginTop="3dp"
+		android:background="@drawable/circle_border"
+		android:src="@mipmap/ic_launcher"
+		app:civ_border_color="@color/white"
+		app:civ_border_width="2dp" />
+
+	<View
+		android:id="@+id/img_off"
+		android:layout_width="49dp"
+		android:layout_height="49dp"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginStart="2.7dp"
+		android:layout_marginTop="1.5dp"
+		android:background="@drawable/circle_border"
+		android:visibility="gone" />
+
+	<View
+		android:id="@+id/img_on"
+		android:layout_width="49dp"
+		android:layout_height="49dp"
+		android:layout_alignParentStart="true"
+		android:layout_marginStart="2.7dp"
+		android:layout_marginTop="1.5dp"
+		android:visibility="gone"
+		android:background="@drawable/circle_border1" />
+
+
+	<TextView
+		android:id="@+id/username"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_marginStart="5dp"
+		android:layout_marginLeft="3dp"
+		android:layout_marginTop="02dp"
+		android:layout_toEndOf="@+id/profile_image"
+		android:layout_toRightOf="@+id/profile_image"
+		android:text="username"
+		android:textStyle="bold"
+		android:textColor="@color/black"
+		android:textSize="20sp" />
+
+	<TextView
+		android:id="@+id/last_msg"
+		android:layout_width="156dp"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/username"
+		android:layout_centerVertical="true"
+		android:layout_marginStart="7dp"
+		android:layout_marginLeft="3dp"
+		android:layout_marginTop="01dp"
+		android:layout_marginEnd="-67dp"
+		android:visibility="visible"
+		android:layout_toStartOf="@+id/msgDAteAndTime"
+		android:layout_toEndOf="@+id/profile_image"
+		android:layout_toRightOf="@+id/profile_image"
+		android:maxLines="1"
+		android:padding="0dp"
+		android:text="hello"
+		android:textColor="#000000"
+		android:textSize="14sp" />
+	<LinearLayout
+		android:id="@+id/msgDAteAndTime"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_toEndOf="@+id/username"
+		android:layout_marginStart="90dp"
+		android:layout_marginEnd="10dp"
+		android:layout_toStartOf="@+id/unseenMessages"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/Date"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_marginStart="05dp"
+			android:layout_marginTop="02dp"
+			android:layout_toLeftOf="@+id/unseenMessages"
+			android:layout_toRightOf="@+id/username"
+			android:maxLines="1"
+			android:padding="0dp"
+			android:hint="Date"
+			android:textColor="#000000"
+			android:textSize="14sp" />
+
+		<TextView
+			android:id="@+id/time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/Date"
+			android:layout_marginStart="05dp"
+			android:layout_marginTop="8dp"
+			android:layout_alignParentEnd="true"
+			android:layout_toLeftOf="@+id/unseenMessages"
+			android:layout_toRightOf="@+id/username"
+			android:hint="Time"
+			android:maxLines="1"
+			android:padding="0dp"
+			android:textColor="#000000"
+			android:textSize="14sp" />
+	</LinearLayout>
+	<TextView
+		android:id="@+id/unseenMessages"
+		android:layout_width="25dp"
+		android:layout_height="25dp"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentEnd="true"
+		android:layout_marginTop="15dp"
+		android:layout_marginBottom="15dp"
+		android:layout_marginEnd="20dp"
+		android:gravity="center"
+		android:text="1"
+		android:visibility="gone"
+		android:textSize="10sp" />
+
+
+</RelativeLayout>

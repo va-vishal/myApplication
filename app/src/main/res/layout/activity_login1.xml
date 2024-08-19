@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".Authentication.LoginActivity1">
+
+	<EditText
+		android:id="@+id/identifier"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/ccp"
+		android:layout_margin="20dp"
+		android:layout_marginTop="-40dp"
+		android:hint="Email or Mobile Number"
+		android:inputType="text"
+		android:padding="10dp" />
+
+	<EditText
+		android:id="@+id/password"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:hint="Password"
+		android:inputType="textPassword"
+		android:padding="10dp"
+		android:layout_below="@id/identifier"
+		android:layout_margin="20dp"/>
+
+	<Button
+		android:id="@+id/login"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Login"
+		android:layout_below="@id/password"
+		android:layout_margin="20dp"/>
+
+	<ProgressBar
+		android:id="@+id/progressBar"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/login"
+		android:layout_centerHorizontal="true"
+		android:visibility="gone"
+		android:layout_margin="20dp"/>
+
+	<TextView
+		android:id="@+id/register"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Don't have an account? Register"
+		android:textColor="@color/black"
+		android:layout_below="@id/progressBar"
+		android:layout_centerHorizontal="true"
+		android:layout_margin="20dp"
+		android:padding="10dp"/>
+
+	<com.hbb20.CountryCodePicker
+		android:id="@+id/ccp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentStart="true"
+		android:layout_marginTop="20dp"
+		android:layout_marginStart="20dp"/>
+</RelativeLayout>

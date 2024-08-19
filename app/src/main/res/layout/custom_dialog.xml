@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:padding="16dp"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:orientation="horizontal">
+		<ImageView
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:src="@drawable/delete"/>
+
+	<TextView
+		android:id="@+id/dialogTitle"
+		android:text="Delete Account"
+		android:layout_gravity="center"
+		android:textSize="18sp"
+		android:layout_marginStart="10dp"
+		android:textColor="#F20000"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+	</LinearLayout>
+	<TextView
+		android:id="@+id/dialogMessage"
+		android:text="* Are you sure you want to delete  Account?"
+		android:layout_marginTop="8dp"
+		android:textColor="@color/black"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+	<TextView
+		android:layout_width="wrap_content"
+		android:textColor="@color/black"
+		android:layout_marginTop="08dp"
+		android:layout_height="wrap_content"
+		android:text="* All yout profile data will be Permanently deleted and this action cannot be reversed!"
+		/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_marginTop="05sp"
+		android:layout_height="wrap_content"
+		android:textColor="#83DB1E"
+		android:text="Note:You can hife your profile from Settings,instead deleting it!"
+		/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_marginTop="16dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<Button
+			android:id="@+id/dialogCancelButton"
+			android:text="Cancel"
+			android:textColor="@color/black"
+			android:background="@drawable/rounded_button"
+			android:layout_weight="1"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"/>
+
+		<Button
+			android:id="@+id/dialogConfirmButton"
+			android:text="Delete"
+			android:layout_weight="1"
+			android:textColor="@color/white"
+			android:background="@drawable/rounded_background"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"/>
+	</LinearLayout>
+</LinearLayout>

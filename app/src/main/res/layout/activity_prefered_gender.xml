@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".PreferedGenderActivity">
+
+	<TextView
+		android:id="@+id/textViewTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentEnd="true"
+		android:layout_marginStart="32dp"
+		android:layout_marginTop="30dp"
+		android:layout_marginEnd="32dp"
+		android:text="Select your prefered gender type,only selected gender will Visible."
+		android:textColor="@color/primaryColor"
+		android:textSize="15sp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.062"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<LinearLayout
+		android:id="@+id/id"
+		android:layout_width="191dp"
+		android:layout_height="33dp"
+		android:layout_below="@+id/textViewTitle"
+		android:layout_marginTop="5dp"
+		android:orientation="horizontal"
+		tools:ignore="MissingConstraints">
+
+		<TextView
+			android:id="@+id/textViewTitle1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/textViewTitle"
+			android:layout_marginStart="32dp"
+			android:text="Gender"
+			android:textColor="@color/black"
+			android:textSize="26sp"
+			android:textStyle="bold" />
+
+		<ImageView
+			android:layout_width="36dp"
+			android:layout_height="33dp"
+			android:layout_above="@+id/recyclerViewGender"
+			android:layout_below="@+id/textViewTitle"
+			android:layout_alignParentEnd="true"
+			android:layout_marginStart="7dp"
+			android:layout_marginEnd="252dp"
+			android:layout_toEndOf="@+id/textViewTitle1"
+			android:src="@drawable/gender" />
+	</LinearLayout>
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewGender"
+		android:layout_width="match_parent"
+		android:layout_height="549dp"
+		android:layout_above="@+id/linearLayout"
+		android:layout_below="@+id/id"
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="13dp"
+		android:clipToPadding="false"
+		android:paddingStart="16dp"
+		android:paddingEnd="16dp"
+		android:paddingBottom="16dp"
+		app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+		app:layout_constraintTop_toBottomOf="@id/id"
+		app:spanCount="2"
+		tools:listitem="@layout/gender_card_item" />
+
+	<LinearLayout
+		android:id="@+id/linearLayout"
+		android:layout_width="98dp"
+		android:layout_height="63dp"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentBottom="true"
+		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="13dp"
+		android:orientation="vertical">
+
+		<Button
+			android:id="@+id/buttonNext"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:background="@drawable/rounded_button"
+			android:text="NEXT"
+			android:textColor="@android:color/white"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+	</LinearLayout>
+
+
+
+</RelativeLayout>
