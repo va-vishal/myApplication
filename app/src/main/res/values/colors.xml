@@ -15,15 +15,16 @@
 	<color name="teal_700">#018786</color>
 	<color name="new_color">#b2ff40</color>
 	<color name="statusBarColorLight">#DADBDD</color>
-	<color name="button_background_unselected">#E0E0E0</color> <!-- Light gray for unselected state -->
+	<color name="button_background_unselected">#E0E0E0
+	</color> <!-- Light gray for unselected state -->
 	<color name="button_background_selected">#DCE9CC</color>
 	<color name="tab_text_selected">#3C643D</color>
 	<color name="tab_text_unselected">#000000</color>
 	<color name="primary">#6200EE</color>
-		<color name="primaryDark">#3700B3</color>
-		<color name="accent">#03DAC5</color>
-		<color name="surface">#FFFFFF</color> <!-- Define colorSurface -->
-		<color name="onBackground">#000000</color> <!-- Define colorOnBackground -->
-	
+	<color name="primaryDark">#3700B3</color>
+	<color name="accent">#03DAC5</color>
+	<color name="surface">#FFFFFF</color> <!-- Define colorSurface -->
+	<color name="onBackground">#000000</color> <!-- Define colorOnBackground -->
+	<color name="lightblue">#B1E4F6</color>
 
 </resources>

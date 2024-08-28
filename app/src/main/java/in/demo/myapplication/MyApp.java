@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
+
+
 public class MyApp extends Application implements ActivityLifecycleCallbacks {
 
     @Override
@@ -26,6 +29,7 @@ public class MyApp extends Application implements ActivityLifecycleCallbacks {
         FirebaseApp.initializeApp(this);
         // Register ActivityLifecycleCallbacks to manage app lifecycle events
         registerActivityLifecycleCallbacks(this);
+
     }
 
     @Override

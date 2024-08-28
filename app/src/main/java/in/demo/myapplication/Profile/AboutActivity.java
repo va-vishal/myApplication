@@ -46,7 +46,7 @@ import in.demo.myapplication.R;
 public class AboutActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
-    private TextView text,profile, prefgender,name, gender, age, dob, mail, height, education, job, religion, mothertongue, salary, maritalstatus, smoking, drinking, personality, diet, description, partnerpreferences;
+    private TextView text,profile, prefgender,name, gender, age, dob, mail, education, job, mothertongue, maritalstatus, description;
     private  Button backButton;
     private EditText dobEditText;
     private String selectedDOB;
@@ -70,19 +70,12 @@ public class AboutActivity extends AppCompatActivity {
         age = findViewById(R.id.age);
         dob = findViewById(R.id.dob);
         mail = findViewById(R.id.mail);
-        height = findViewById(R.id.height);
+
         education = findViewById(R.id.education);
         job = findViewById(R.id.job);
-        religion = findViewById(R.id.religion);
         mothertongue = findViewById(R.id.mothertongue);
-        salary = findViewById(R.id.salary);
         maritalstatus = findViewById(R.id.maritalstatus);
-        smoking = findViewById(R.id.smoking);
-        drinking = findViewById(R.id.drinking);
-        personality = findViewById(R.id.personality);
-        diet = findViewById(R.id.diet);
         description = findViewById(R.id.descriptionTextView);
-        partnerpreferences = findViewById(R.id.partnerpreferences);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,17 +116,10 @@ public class AboutActivity extends AppCompatActivity {
                             age.setText("Age : "+userProfile.age);
                             dob.setText("Dob : "+userProfile.dob);
                             mail.setText("Mail : "+userProfile.email);
-                            height.setText("Height : "+userProfile.height);
                             education.setText("Education : "+userProfile.educationLevel);
                             job.setText("Job : "+userProfile.jobType);
-                            religion.setText("Religion : "+userProfile.religion);
                             mothertongue.setText("MotherTongue : "+userProfile.motherTongue);
-                            salary.setText("Salary : "+userProfile.salary);
                             maritalstatus.setText("Marital Status : "+userProfile.maritalStatus);
-                            smoking.setText("Smoking : "+userProfile.smokingStatus);
-                            drinking.setText("Drinking : "+userProfile.drinkingStatus);
-                            personality.setText("Personality : "+userProfile.personality);
-                            diet.setText("Diet : "+userProfile.diet);
                             description.setText("Description : "+userProfile.description);
                             prefgender.setText("Prefered Gender : "+userProfile.prefGender);
                             prefgender.setVisibility(userProfile.prefGender != null ? View.VISIBLE : View.GONE);
@@ -152,16 +138,9 @@ public class AboutActivity extends AppCompatActivity {
         setClickListener(name, this::showNameDialog);
         setClickListener(gender, this::showGenderDialog);
         setClickListener(dob, this::showDobDialog);
-        setClickListener(religion, this::showReligionDialog);
         setClickListener(mothertongue, this::showMotherTongueDialog);
-        setClickListener(smoking, this::showSmokingDialog);
-        setClickListener(drinking, this::showDrinkingDialog);
-        setClickListener(personality, this::showPersonalityDialog);
-        setClickListener(diet, this::showDietDialog);
-        setClickListener(height, this::showHeightDialog);
         setClickListener(education, this::showEducationDialog);
         setClickListener(job, this::showJobDialog);
-        setClickListener(salary, this::showSalaryDialog);
         setClickListener(maritalstatus, this::showMaritalStatusDialog);
         setClickListener(description, this::showDescriptionDialog);
         setClickListener(prefgender, this::showPrefGenderDialog);
@@ -243,253 +222,7 @@ public class AboutActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void showDietDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_diet_options, null);
 
-        // Create the AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        // Find the RadioGroup and buttons in the dialog
-        RadioGroup radioGroupDiet = dialogView.findViewById(R.id.radioGroupDiet);
-        Button btnOk = dialogView.findViewById(R.id.btnOk);
-        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
-
-        // Populate the RadioGroup with height options
-        populateDietOptions(radioGroupDiet);
-
-        // Show the dialog
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            // Set the background color to transparent
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-
-        // Handle Cancel button click
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        // Handle OK button click
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedId = radioGroupDiet.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-                if (selectedRadioButton != null) {
-                    String selectedDiet = selectedRadioButton.getText().toString();
-                    diet.setText(selectedDiet);
-
-                    // Update Firebase database
-                    updateDietInDatabase(selectedDiet);
-                }
-                dialog.dismiss();
-            }
-        });
-    }
-    private void populateDietOptions(RadioGroup radioGroupDiet) {
-        String[] diets = {"Vegetarian", "Vegan", "Non-Vegetarian", "Pescatarian", "Paleo", "Keto"};
-        for (String diet : diets) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(diet);
-            radioGroupDiet.addView(radioButton);
-        }
-    }
-    private void updateDietInDatabase(String selectedDiet) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference("users")
-                .child(auth.getCurrentUser().getUid());
-
-        HashMap<String, Object> userUpdates = new HashMap<>();
-        userUpdates.put("diet", selectedDiet);
-
-        databaseReference.updateChildren(userUpdates)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(AboutActivity.this, "diet type updated successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AboutActivity.this, "Failed to update diet Type: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-    private void showPersonalityDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_personality, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        RadioGroup radioGroupPersonality = dialogView.findViewById(R.id.radioGroupPersonality);
-        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
-        Button btnOk = dialogView.findViewById(R.id.btnOk);
-
-        populatePersonalityOptions(radioGroupPersonality);
-
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-        btnOk.setOnClickListener(v -> {
-            int selectedId = radioGroupPersonality.getCheckedRadioButtonId();
-            RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-            if (selectedRadioButton != null) {
-                String selectedPersonality = selectedRadioButton.getText().toString();
-                personality.setText(selectedPersonality);
-                updatePersonalityInDatabase(selectedPersonality);}
-            dialog.dismiss();
-        });}
-    private void updatePersonalityInDatabase(String selectedPersonality) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("personality").setValue(selectedPersonality)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AboutActivity.this, "personality updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AboutActivity.this, "Failed to update personality", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-    private void populatePersonalityOptions(RadioGroup radioGroupPersonality) {
-        String[] Personalities = {"Introvert", "Extrovert", "Ambivert", "Omnivert"};
-        for (String personality : Personalities) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(personality);
-            radioGroupPersonality.addView(radioButton);
-        }
-    }
-    private void showDrinkingDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_drinking, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        RadioGroup radioGroupDrinking = dialogView.findViewById(R.id.radioGroupDrinking);
-        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
-        Button btnOk = dialogView.findViewById(R.id.btnOk);
-
-        populateDrinkingOptions(radioGroupDrinking);
-
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-        btnOk.setOnClickListener(v -> {
-            int selectedId = radioGroupDrinking.getCheckedRadioButtonId();
-            RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-            if (selectedRadioButton != null) {
-                String selectedDrinking = selectedRadioButton.getText().toString();
-                Log.d("selectedDrinking", " selectedDrinking: " + selectedDrinking); // Debug log
-                drinking.setText(selectedDrinking);
-                updateDrinkingInDatabase(selectedDrinking);}
-            dialog.dismiss();
-        });}
-    private void updateDrinkingInDatabase(String selectedDrinking) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("drinkingStatus").setValue(selectedDrinking)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AboutActivity.this, "drinkingStatus updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AboutActivity.this, "Failed to update drinkingStatus", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-    private void populateDrinkingOptions(RadioGroup radioGroupDrinking) {
-        String[] Drinkings = {"Teetotaller", "Drink Socially", "Drink Regularly", "Drink Occuasinally","Plan to Quit Drinking"};
-        for (String Drinking : Drinkings) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(Drinking);
-            radioGroupDrinking.addView(radioButton);
-        }
-    }
-    private void showSmokingDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_smoking, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        RadioGroup radioGroupSmoking = dialogView.findViewById(R.id.radioGroupSmoking);
-        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
-        Button btnOk = dialogView.findViewById(R.id.btnOk);
-
-        populateSmokingOptions(radioGroupSmoking);
-
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-        btnOk.setOnClickListener(v -> {
-            int selectedId = radioGroupSmoking.getCheckedRadioButtonId();
-            RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-            if (selectedRadioButton != null) {
-                String selectedSmoking = selectedRadioButton.getText().toString();
-                Log.d("selectedSmoking", " selectedSmoking: " + selectedSmoking); // Debug log
-                smoking.setText(selectedSmoking);
-                updateSmokingStatusInDatabase(selectedSmoking);}
-            dialog.dismiss();
-        });}
-    private void updateSmokingStatusInDatabase(String selectedSmoking) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("smokingStatus").setValue(selectedSmoking)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AboutActivity.this, "smokingStatus updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AboutActivity.this, "Failed to update smokingStatus", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-    private void populateSmokingOptions(RadioGroup radioGroupSmoking) {
-        String[] Smokings = {"Never", "I Smoke", "Smoke Occuasinally", "Plan to Quit Smoking"};
-        for (String Smoking : Smokings) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(Smoking);
-            radioGroupSmoking.addView(radioButton);
-        }
-    }
     private void showMotherTongueDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_mothertongue, null);
@@ -546,62 +279,7 @@ public class AboutActivity extends AppCompatActivity {
             radioGroupMotherTongue.addView(radioButton);
         }
     }
-    private void showReligionDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-    View dialogView = inflater.inflate(R.layout.dialog_religion, null);
-    AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-    RadioGroup radioGroupRelifion = dialogView.findViewById(R.id.radioGroupReligion);
-    Button  btnCancel= dialogView.findViewById(R.id.btnCancel);
-    Button btnOk = dialogView.findViewById(R.id.btnOk);
-    populateReligionOptions(radioGroupRelifion);
-    AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));}
-        dialog.show();
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-        btnOk.setOnClickListener(v -> {
-        int selectedId = radioGroupRelifion.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-        if (selectedRadioButton != null) {
-            String selectedReligion = selectedRadioButton.getText().toString();
-            Log.d("selectedReligion", " selectedReligion: " + selectedReligion); // Debug log
-            religion.setText(selectedReligion);
-            updateReligionInDatabase(selectedReligion);
-        }
-        dialog.dismiss();
-    });
 
-    }
-    private void updateReligionInDatabase(String selectedReligion) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("religion").setValue(selectedReligion)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Successfully updated
-                            Toast.makeText(AboutActivity.this, "religion updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Failed to update
-                            Toast.makeText(AboutActivity.this, "Failed to update religion", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-    private void populateReligionOptions(RadioGroup radioGroupRelifion) {
-        String[] Religions = {"Christianity", "Islam", "Hinduism", "Buddhism","Judaism","Sikhism","Other"};
-        for (String Religion : Religions) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(Religion);
-            radioGroupRelifion.addView(radioButton);
-        }
-    }
     private void showDobDialog() {
         CustomDatePickerBottomSheet dialog = new CustomDatePickerBottomSheet(AboutActivity.this, new CustomDatePickerBottomSheet.OnDateSetListener() {
             @Override
@@ -807,81 +485,7 @@ public class AboutActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void showHeightDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_height_options, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        RadioGroup radioGroupHeight = dialogView.findViewById(R.id.radioGroupHeight);
-        Button btnOk = dialogView.findViewById(R.id.btnOk);
-        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
-
-        populateHeightOptions(radioGroupHeight);
-
-        // Show the dialog
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        // Handle OK button click
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedId = radioGroupHeight.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-                if (selectedRadioButton != null) {
-                    String selectedHeight = selectedRadioButton.getText().toString();
-                    height.setText(selectedHeight);
-
-                    // Update Firebase database
-                    updateHeightInDatabase(selectedHeight);
-                }
-                dialog.dismiss();
-            }
-        });
-    }
-    private void populateHeightOptions(RadioGroup radioGroupHeight) {
-        int startHeight = 150;
-        int endHeight = 200;
-
-        for (int i = startHeight; i <= endHeight; i++) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(i + " cm");
-            radioGroupHeight.addView(radioButton);
-        }
-    }
-    private void updateHeightInDatabase(String newHeight) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("height").setValue(newHeight)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Successfully updated
-                            Toast.makeText(AboutActivity.this, "Height updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Failed to update
-                            Toast.makeText(AboutActivity.this, "Failed to update height", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
     private void showEducationDialog() {
         // Inflate the custom dialog layout
         LayoutInflater inflater = getLayoutInflater();
@@ -1110,98 +714,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private void showSalaryDialog() {
-        // Inflate the dialog layout
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_salary, null);
 
-        // Create the AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-        builder.setView(dialogView);
-
-        // Find the RadioGroup and buttons in the dialog
-        RadioGroup radioGroupSalary = dialogView.findViewById(R.id.radioGroupSalary);
-        Button btnOkSalary = dialogView.findViewById(R.id.btnOkSalary);
-        Button btnCancelSalary = dialogView.findViewById(R.id.btnCancelSalary);
-
-        // Populate the RadioGroup with salary options
-        populateSalaryOptions(radioGroupSalary);
-
-        // Show the dialog
-        AlertDialog dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            // Set the background color to transparent
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.show();
-
-        // Handle Cancel button click
-        btnCancelSalary.setOnClickListener(v -> dialog.dismiss());
-
-        // Handle OK button click
-        btnOkSalary.setOnClickListener(v -> {
-            int selectedId = radioGroupSalary.getCheckedRadioButtonId();
-            RadioButton selectedRadioButton = dialogView.findViewById(selectedId);
-            if (selectedRadioButton != null) {
-                String selectedSalary = selectedRadioButton.getText().toString();
-                Log.d("SalarySelection", "Selected salary: " + selectedSalary); // Debug log
-                salary.setText(selectedSalary); // Ensure this updates the UI
-
-                // Update Firebase database
-                updateSalaryInDatabase(selectedSalary);
-            } else {
-                Toast.makeText(AboutActivity.this, "Please select a salary option", Toast.LENGTH_SHORT).show();
-            }
-            dialog.dismiss();
-        });
-    }
-    private void populateSalaryOptions(RadioGroup radioGroupSalary) {
-        // Define salary options
-        String[] salaryOptions = {
-                "student",
-                "0-30k per month",
-                "30k-50k per month",
-                "50-75k per month",
-                "75k-1lak per month",
-                "1lak-1.5lak per month",
-                "1.5lak-2lak per month",
-                "2lak-2.5lak per month",
-                "2.5lak-3lak per month",
-                "3lak-3.5lak per month",
-                "3.5lak-4lak per month",
-                "4lak-4.5lak per month",
-                "4.5lak-5lak per month",
-                "5lak-above per month",
-                "I Don't want to disclose my salary details!"
-        };
-
-        for (String option : salaryOptions) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setId(View.generateViewId());
-            radioButton.setText(option);
-            radioGroupSalary.addView(radioButton);
-        }
-    }
-    private void updateSalaryInDatabase(String newSalary) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
-            userRef.child("salary").setValue(newSalary)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Successfully updated
-                            Toast.makeText(AboutActivity.this, "Salary updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Failed to update
-                            Toast.makeText(AboutActivity.this, "Failed to update salary", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
     private void showDescriptionDialog() {
         // Inflate the custom dialog layout
         LayoutInflater inflater = getLayoutInflater();

@@ -1,5 +1,6 @@
 package in.demo.myapplication.Authentication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,8 +33,10 @@ public class LoginActivity1 extends AppCompatActivity {
     private TextView registerButton;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    private CardView signinwithgoogle;
     private CountryCodePicker ccp;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +51,16 @@ public class LoginActivity1 extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         registerButton = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
-        ccp = findViewById(R.id.ccp);
+        signinwithgoogle = findViewById(R.id.signinwithgoogle);
 
+
+
+        signinwithgoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         // Set click listener for login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +84,7 @@ public class LoginActivity1 extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(emailOrMobile)) {
-            emailOrMobileEditText.setError("Enter email or mobile number");
+            emailOrMobileEditText.setError("Enter email");
             return;
         }
         if (TextUtils.isEmpty(password)) {
@@ -103,24 +115,9 @@ public class LoginActivity1 extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            // Login with mobile number and password
-            ccp.registerCarrierNumberEditText(emailOrMobileEditText);
-            String mobile = ccp.getFullNumberWithPlus().replace(" ", "");
-            auth.signInWithEmailAndPassword(mobile + "@myapp.com", password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
-                            if (task.isSuccessful()) {
-                                Toast.makeText(LoginActivity1.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity1.this, HomeActivity.class));
-                                finish();
-                            } else {
-                                Toast.makeText(LoginActivity1.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+        }else{
+            emailOrMobileEditText.setError("Please enter a valid email address");
+            progressBar.setVisibility(View.GONE);
         }
     }
 }

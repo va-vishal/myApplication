@@ -1,61 +1,60 @@
 <resources>
 	<string name="app_name">My Application</string>
-
-	<string-array name="height_options">
-		<item>150 cm</item>
-		<item>151 cm</item>
-		<item>152 cm</item>
-		<item>153 cm</item>
-		<item>154 cm</item>
-		<item>155 cm</item>
-		<item>156 cm</item>
-		<item>157 cm</item>
-		<item>158 cm</item>
-		<item>159 cm</item>
-		<item>160 cm</item>
-		<item>161 cm</item>
-		<item>162 cm</item>
-		<item>163 cm</item>
-		<item>164 cm</item>
-		<item>165 cm</item>
-		<item>166 cm</item>
-		<item>167 cm</item>
-		<item>168 cm</item>
-		<item>169 cm</item>
-		<item>170 cm</item>
-		<item>171 cm</item>
-		<item>172 cm</item>
-		<item>173 cm</item>
-		<item>174 cm</item>
-		<item>175 cm</item>
-		<item>176 cm</item>
-		<item>177 cm</item>
-		<item>178 cm</item>
-		<item>179 cm</item>
-		<item>180 cm</item>
-		<item>181 cm</item>
-		<item>182 cm</item>
-		<item>183 cm</item>
-		<item>184 cm</item>
-		<item>185 cm</item>
-		<item>186 cm</item>
-		<item>187 cm</item>
-		<item>188 cm</item>
-		<item>189 cm</item>
-		<item>190 cm</item>
-		<item>191 cm</item>
-		<item>192 cm</item>
-		<item>193 cm</item>
-		<item>194 cm</item>
-		<item>195 cm</item>
-		<item>196 cm</item>
-		<item>197 cm</item>
-		<item>198 cm</item>
-		<item>199 cm</item>
-		<item>200 cm</item>
+		<string-array name="gender_options">
+			<item>Select Gender</item>
+			<item>Male</item>
+			<item>Female</item>
+			<item>Shemale</item>
+			<item>Gay</item>
+			<item>Lesbian</item>
+			<item>Trans</item>
+		</string-array>
+		<string-array name="pref_gender_options">
+			<item>Select Prefered Gender</item>
+			<item>Male</item>
+			<item>Female</item>
+			<item>Shemale</item>
+			<item>Gay</item>
+			<item>Lesbian</item>
+			<item>Trans</item>
+		</string-array>
+	<string-array name="maritalstatus_options">
+		<item>Select Marital Status</item>
+		<item>Single</item>
+		<item>Married</item>
+		<item>Widowed</item>
+		<item>Divorced</item>
+		<item>Single with Child</item>
+		<item>Divorced with Child</item>
+		<item>Widowed With Child</item>
+	</string-array>
+	<string-array name="Educationlevel_options">
+		<item>Select Education Level</item>
+		<item>High School</item>
+		<item>Bachelors</item>
+		<item>Engineering</item>
+		<item>Masters</item>
+		<item>Phd</item>
+		<item>Others</item>
+	</string-array>
+	<string-array name="jobtype_options">
+		<item>Select JobType</item>
+		<item>Student</item>
+		<item>Engineer</item>
+		<item>Doctor</item>
+		<item>Teacher</item>
+		<item>Artist</item>
+		<item>Manager</item>
+		<item>Chef</item>
+		<item>Driver</item>
+		<item>Pilot</item>
+		<item>Writer</item>
+		<item>Private job</item>
+		<item>Other</item>
 	</string-array>
 
 	<string-array name="mother_tongue_options">
+		<item>Select Mothertounge</item>
 		<item>Telugu</item>
 		<item>Hindi</item>
 		<item>English</item>
@@ -70,10 +69,13 @@
 		<item>Urdu</item>
 		<item>Gujarathi</item>
 		<item>Odia</item>
-
 	</string-array>
+
+
 	<!-- TODO: Remove or change this placeholder text -->
 	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="native_ad">ca-app-pub-2676604629524489/1552865874</string>
+
 
 
 </resources>

@@ -35,11 +35,11 @@
 					android:layout_marginStart="0dp"
 					android:layout_marginTop="0dp"
 					android:layout_marginEnd="0dp"
-					android:layout_toStartOf="@+id/Audiocall">
+					android:layout_toStartOf="@+id/new_voice_call">
 
 					<TextView
 						android:id="@+id/username"
-						android:layout_width="match_parent"
+						android:layout_width="172dp"
 						android:layout_height="wrap_content"
 						android:layout_marginStart="5dp"
 						android:layout_toEndOf="@+id/profile_image"
@@ -63,16 +63,15 @@
 
 					<TextView
 						android:id="@+id/lastSeen"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
+						android:layout_width="171dp"
+						android:layout_height="22dp"
 						android:layout_below="@+id/username"
 						android:layout_marginStart="05dp"
 						android:layout_marginTop="2dp"
 						android:layout_toEndOf="@+id/profile_image"
 						android:text="Last Seen"
 						android:textColor="#28952C"
-						android:textSize="13sp"
-						 />
+						android:textSize="13sp" />
 
 					<de.hdodenhof.circleimageview.CircleImageView
 						android:id="@+id/profile_image"
@@ -96,27 +95,21 @@
 						android:visibility="visible" />
 				</RelativeLayout>
 
-				<ImageView
-					android:id="@+id/videocall"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:layout_alignParentTop="true"
-					android:layout_marginTop="8dp"
-					android:layout_marginEnd="7dp"
+				<com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+					android:id="@+id/video"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
+					android:layout_marginStart="8dp"
 					android:visibility="visible"
-					android:layout_toStartOf="@+id/more"
-					android:src="@drawable/video" />
+					android:layout_toStartOf="@+id/more"/>
 
-				<ImageView
-					android:id="@+id/Audiocall"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:layout_alignParentTop="true"
-					android:layout_marginTop="08dp"
-					android:layout_marginEnd="7dp"
+				<com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+					android:id="@+id/voice"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
 					android:visibility="visible"
-					android:layout_toStartOf="@+id/videocall"
-					android:src="@drawable/call" />
+					android:layout_toStartOf="@+id/video"/>
+
 
 				<ImageButton
 					android:id="@+id/more"
@@ -146,15 +139,15 @@
 	<com.airbnb.lottie.LottieAnimationView
 		android:id="@+id/animation_view"
 		android:layout_width="114dp"
-		android:layout_height="45dp"
-		android:layout_marginStart="-5dp"
-		android:layout_marginBottom="-10dp"
+		android:layout_height="100dp"
+		android:layout_marginStart="-20dp"
+		android:layout_marginBottom="-40dp"
 		app:layout_constraintBottom_toTopOf="@+id/msgData"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.053"
+		app:layout_constraintHorizontal_bias="0.069"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-		app:layout_constraintVertical_bias="0.996"
+		app:layout_constraintVertical_bias="0.979"
 		app:lottie_autoPlay="true"
 		app:lottie_fileName="animation.json"
 		app:lottie_loop="true"

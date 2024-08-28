@@ -3,7 +3,7 @@ package in.demo.myapplication.Calls;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,12 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 
-import org.jitsi.meet.sdk.JitsiMeetActivity;
-import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
-
-import java.net.URL;
+import java.util.Collections;
 
 import in.demo.myapplication.FCM.FcmNotificationSender;
 import in.demo.myapplication.Message.messagingActivity;
@@ -150,7 +150,7 @@ public class VideoCallOutgoing extends AppCompatActivity {
 
                     if (response.equals("yes")){
 
-                        joinmeeting(key);
+
                         Toast.makeText(VideoCallOutgoing.this, "Call Accepted", Toast.LENGTH_SHORT).show();
 
                     }else  if (response.equals("no")){
@@ -176,26 +176,12 @@ public class VideoCallOutgoing extends AppCompatActivity {
 
     }
 
-    private void joinmeeting(String key) {
-        try {
-            // Build Jitsi Meet conference options using the received key
-            JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
-                    .setServerURL(new URL("https://meet.jit.si")) // Change to your server URL if self-hosted
-                    .setRoom(key)
-                    .setAudioMuted(false)
-                    .setVideoMuted(false)
-                    //.setWelcomePageEnabled(false)
-                    .build();
 
-            // Launch the Jitsi Meet activity
-            JitsiMeetActivity.launch(this, options);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void sendCallInvitation() {
 
+        videoCallModel.setCalleruid(sender_uid);
+        videocallref.child(reciver_uid).setValue(videoCallModel);
         FirebaseDatabase.getInstance().getReference("users").child(reciver_uid).child("fcmToken").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -210,8 +196,6 @@ public class VideoCallOutgoing extends AppCompatActivity {
         });
 
 
-        videoCallModel.setCalleruid(sender_uid);
-        videocallref.child(reciver_uid).setValue(videoCallModel);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

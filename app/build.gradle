@@ -50,6 +50,7 @@ dependencies {
     implementation libs.firebase.firestore
     implementation libs.recyclerview
         implementation libs.firebase.messaging
+    implementation project(':nativetemplates')
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -80,9 +81,9 @@ dependencies {
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.19.0'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.android.volley:volley:1.2.1'
-    implementation ('org.jitsi.react:jitsi-meet-sdk:8.1.2')
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:+'
 
-
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
 
 
 }

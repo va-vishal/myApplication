@@ -9,10 +9,84 @@
 	app:cardBackgroundColor="@color/white"
 	app:cardUseCompatPadding="true">
 
+	<!--<com.google.android.gms.ads.nativead.NativeAdView
+		android:id="@+id/nativeAdView"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:padding="16dp">
+
+
+		<com.google.android.gms.ads.nativead.MediaView
+			android:id="@+id/ad_media"
+			android:layout_width="match_parent"
+			android:layout_height="180dp"
+			android:layout_marginBottom="8dp" >
+
+			<RatingBar
+				android:id="@+id/ad_star_rating"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="8dp"
+				android:numStars="5"
+				android:stepSize="0.5" />
+		</com.google.android.gms.ads.nativead.MediaView>
+
+
+		<ImageView
+			android:id="@+id/ad_app_icon"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginBottom="8dp"
+			android:layout_gravity="start" />
+
+
+		<TextView
+			android:id="@+id/ad_headline"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:textSize="16sp"
+			android:textStyle="bold"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginBottom="4dp" />
+
+
+		<TextView
+			android:id="@+id/ad_body"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:textSize="14sp"
+			android:layout_marginBottom="8dp" />
+
+
+		<Button
+			android:id="@+id/ad_call_to_action"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:backgroundTint="@color/lightblue"
+			android:text="Call to Action"
+			android:layout_marginBottom="8dp" />
+
+
+		<TextView
+			android:id="@+id/ad_advertiser"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:layout_gravity="bottom"
+			android:textSize="14sp" />
+
+	</com.google.android.gms.ads.nativead.NativeAdView>
+
+-->
+
 	<RelativeLayout
 		android:layout_width="wrap_content"
 		android:layout_height="match_parent"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		android:visibility="visible">
 
 		<ViewFlipper
 			android:id="@+id/viewFlipper"
@@ -25,13 +99,14 @@
 
 			<ImageView
 				android:id="@+id/image11"
-				android:visibility="gone"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:scaleType="centerCrop"
+				android:visibility="gone"
 
 				/>
-		<ImageView
+
+			<ImageView
 			android:id="@+id/image22"
 			android:visibility="gone"
 			android:layout_width="match_parent"
@@ -61,7 +136,7 @@
 			android:layout_height="101dp"
 			android:layout_alignBottom="@+id/viewFlipper"
 			android:layout_gravity="bottom"
-			android:layout_marginBottom="32dp"
+			android:layout_marginBottom="05dp"
 			android:padding="8dp">
 
 			<TextView
@@ -167,32 +242,61 @@
 		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
+			android:layout_above="@+id/pub"
 			android:layout_alignParentEnd="true"
-			android:layout_marginTop="355dp"
 			android:layout_marginEnd="8dp"
-			android:orientation="vertical">
+			android:layout_marginBottom="10dp"
+			android:background="@android:color/transparent"
+			android:foregroundGravity="center_vertical"
+			android:orientation="vertical"
+			android:padding="05dp">
 
-			<ImageView
+			<com.google.android.material.floatingactionbutton.FloatingActionButton
 				android:id="@+id/dislike_button"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
-				android:layout_marginTop="02dp"
-				android:src="@drawable/dislike" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/fab_border"
+				android:backgroundTint="@color/white"
+				app:backgroundTint="@color/lightblue"
+				app:borderWidth="3dp"
+				app:fabSize="normal"
+				app:srcCompat="@drawable/dislike" />
 
-			<ImageView
+			<com.google.android.material.floatingactionbutton.FloatingActionButton
 				android:id="@+id/like_button"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
-				android:layout_marginTop="02dp"
-				android:src="@drawable/like" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="03dp"
+				android:background="@drawable/fab_border"
+				android:backgroundTint="@color/white"
+				app:backgroundTint="@color/lightblue"
+				app:borderWidth="3dp"
+				app:fabSize="normal"
+				app:srcCompat="@drawable/heart" />
 
-			<ImageView
+			<com.google.android.material.floatingactionbutton.FloatingActionButton
 				android:id="@+id/profileview"
-				android:layout_width="55dp"
-				android:layout_height="55dp"
-				android:layout_marginTop="02dp"
-				android:src="@drawable/info" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="03dp"
+				android:background="@drawable/fab_border"
+				android:backgroundTint="@color/white"
+				app:backgroundTint="@color/lightblue"
+				app:borderWidth="3dp"
+				app:fabSize="normal"
+				app:srcCompat="@drawable/info" />
+
+			<com.google.android.material.floatingactionbutton.FloatingActionButton
+				android:id="@+id/message"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="03dp"
+				android:background="@drawable/fab_border"
+				android:backgroundTint="@color/white"
+				app:backgroundTint="@color/lightblue"
+				app:borderWidth="3dp"
+				app:fabSize="normal"
+				app:srcCompat="@drawable/messenger" />
 		</LinearLayout>
 
 		<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,8 +1,8 @@
 package in.demo.myapplication.Message;
-
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,13 +43,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.ExplainReasonCallback;
+import com.permissionx.guolindev.callback.RequestCallback;
+import com.permissionx.guolindev.request.ExplainScope;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayoutMode;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayoutPictureInPictureConfig;
+import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallService;
+import com.zegocloud.uikit.prebuilt.call.config.DurationUpdateListener;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoCallDurationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +76,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.demo.myapplication.Adapter.MessageAdapter;
-import in.demo.myapplication.Calls.VideoCallOutgoing;
+import in.demo.myapplication.FCM.FcmNotificationSender;
 import in.demo.myapplication.MessageActivity;
 import in.demo.myapplication.Model.Chat;
 import in.demo.myapplication.Model.User;
@@ -66,14 +85,15 @@ import in.demo.myapplication.R;
 public class messagingActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
-    TextView username, blockedText , lastSeen, online;
+    TextView username, blockedText, lastSeen, online;
     EditText editText;
-    ImageView more, VideoCall, AudioCall;
+    ImageView more;
     RecyclerView recyclerView_c;
     FirebaseUser currentUser;
     DatabaseReference reference, typingRef;
     MessageAdapter messageAdapter;
     LinearLayout msgData;
+    private String sname, rname, receiver_token;
     List<Chat> mchat;
     LottieAnimationView animation_view;
     ValueEventListener seenListener;
@@ -82,21 +102,22 @@ public class messagingActivity extends AppCompatActivity {
     private Context mContext;
     private static final int PICK_IMAGE = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 102;
-    private Boolean isblocked=false;
-    //private MainRepository mainRepository;
-    private final String TAG = "VideoCall";
+    private Boolean isblocked = false;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference userRef = database.getReference("users");
+    private static final String TAG = "VideoCall";
+    private ZegoSendCallInvitationButton videocall, audiocall;
+    private final long appID = 19161546; // Your App ID
+    private final String appSign = "675b397595252aae19a8ceef861514f584d6de6ed147273068939191043f053e";
+    Application application = new Application() ;// Your App Sign
 
 
-    //@SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
         EmojiManager.install(new GoogleEmojiProvider());
-        //mainRepository = new MainRepository();
 
         mContext = this;
 
@@ -111,7 +132,22 @@ public class messagingActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView_c.setLayoutManager(linearLayoutManager);
+        videocall = findViewById(R.id.video);
+        audiocall = findViewById(R.id.voice);
+        if (videocall == null) {
+            Log.e(TAG, "Video call button is null");
+        }
+        if (audiocall == null) {
+            Log.e(TAG, "Voice call button is null");
+        }
 
+        // Proceed with setting up the buttons if they are not null
+        if (videocall != null) {
+            videocall.setOnClickListener(v -> initiateVideoCall());
+        }
+        if (audiocall != null) {
+            audiocall.setOnClickListener(v -> initiateVoiceCall());
+        }
         online = findViewById(R.id.online);
         lastSeen = findViewById(R.id.lastSeen);
         profile_image = findViewById(R.id.profile_image);
@@ -125,14 +161,12 @@ public class messagingActivity extends AppCompatActivity {
         editText.setVisibility(View.VISIBLE);
         more = findViewById(R.id.more);
         blockedText = findViewById(R.id.blockedText);
-        VideoCall = findViewById(R.id.videocall);
-        AudioCall = findViewById(R.id.Audiocall);
         msgData = findViewById(R.id.msgData);
 
         recyclerView_c.setVisibility(View.VISIBLE);
         msgData.setVisibility(View.VISIBLE);
-        VideoCall.setVisibility(View.VISIBLE);
-        AudioCall.setVisibility(View.VISIBLE);
+        videocall.setVisibility(View.VISIBLE);
+        audiocall.setVisibility(View.VISIBLE);
         more.setVisibility(View.VISIBLE);
         blockedText.setVisibility(View.GONE);
 
@@ -149,10 +183,29 @@ public class messagingActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("users").child(otherUser);
         typingRef = FirebaseDatabase.getInstance().getReference("typing");
 
-        animation_view.setAnimation("anim.json"); // Make sure the file is in res/raw folder
+
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("users").child(otherUser);
+
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    rname = user.getName();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(messagingActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        animation_view.setAnimation("animation.json");
         setupSendMessageButton(otherUser);
         loadUserData(otherUser);
         seenMessage(otherUser);
+        initCallInviteService();
         setupTypingStatus(editText, otherUser, typingRef);
         checkOnlineStatus(otherUser);
 
@@ -190,30 +243,130 @@ public class messagingActivity extends AppCompatActivity {
                 });
             }
         });
+        PermissionX.init(this).permissions(Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .onExplainRequestReason(new ExplainReasonCallback() {
+                    @Override
+                    public void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList) {
+                        String message = "We need your consent for the following permissions in order to use the offline call function properly";
+                        scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny");
+                    }
+                }).request(new RequestCallback() {
+                    @Override
+                    public void onResult(boolean allGranted, @NonNull List<String> grantedList,
+                                         @NonNull List<String> deniedList) {
+                    }
+                });PermissionX.init(this).permissions(Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .onExplainRequestReason(new ExplainReasonCallback() {
+                    @Override
+                    public void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList) {
+                        String message = "We need your consent for the following permissions in order to use the offline call function properly";
+                        scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny");
+                    }
+                }).request(new RequestCallback() {
+                    @Override
+                    public void onResult(boolean allGranted, @NonNull List<String> grantedList,
+                                         @NonNull List<String> deniedList) {
+                    }
+                });
+       //initCallInviteService(appID, appSign, currentUser.getUid(), userName);
 
-        VideoCall.setOnClickListener(new View.OnClickListener() {
+    }
+    private void initCallInviteService() {
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference().child("users").child(currentUser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                PermissionX.init(messagingActivity.this)
-                        .permissions(android.Manifest.permission.CAMERA, android.Manifest.permission.RECORD_AUDIO)
-                        .request((allGranted, grantedList, deniedList) -> {
-                            if (allGranted) {
-                                Log.d(TAG, "onRequestPermissionsResult: All permissions granted");
-                                Intent intent = new Intent(messagingActivity.this, VideoCallOutgoing.class);
-                                intent.putExtra("uid", otherUser);
-                                startActivity(intent);
-                            } else {
-                                // Handle the case where permissions are denied
-                                Log.d(TAG, "onRequestPermissionsResult: Permissions denied: " + deniedList.toString());
-                                Toast.makeText(messagingActivity.this, "Permissions are required for video calling", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        sname = user.getName();
+                        String userID = currentUser.getUid();
+                        String userName = sname;
+
+                        // Create and configure call invitation settings
+                        ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
+
+                        callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
+                            @Override
+                            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                                ZegoUIKitPrebuiltCallConfig config;
+                                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                                if (!isVideoCall) {
+                                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
+                                } else {
+                                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
+                                }
+                                callInvitationConfig.outgoingCallBackground = new ColorDrawable(Color.BLUE);
+                                callInvitationConfig.incomingCallBackground = new ColorDrawable(Color.GREEN);
+                                callInvitationConfig.incomingCallRingtone = "incomingCallRingtone";
+                                callInvitationConfig.outgoingCallRingtone = "outgoingCallRingtone";
+
+                                // Add duration configuration
+                                config.durationConfig = new ZegoCallDurationConfig();
+                                config.durationConfig.isVisible = true;
+                                config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
+                                    @Override
+                                    public void onDurationUpdate(long seconds) {
+                                        Log.d("CallDuration", "onDurationUpdate() called with: seconds = [" + seconds + "]");
+                                        if (seconds == 60 * 5) {  // End call after 5 minutes
+                                            ZegoUIKitPrebuiltCallService.endCall();
+                                        }
+                                    }
+                                };
+
+                                // Modify your custom calling configurations here
+                                ZegoLayoutPictureInPictureConfig pipConfig = new ZegoLayoutPictureInPictureConfig();
+                                pipConfig.switchLargeOrSmallViewByClick = true;
+                                config.layout.mode = ZegoLayoutMode.PICTURE_IN_PICTURE;
+                                config.layout.config = pipConfig;
+
+                                return config;
                             }
-                        });
+                        };
+
+                        // Initialize the call invitation service
+                        ZegoUIKitPrebuiltCallService.init(
+                                getApplication(),
+                                appID,
+                                appSign,
+                                userID,
+                                userName,
+                                callInvitationConfig
+                        );
+                    } else {
+                        Log.e("messagingActivity", "User data does not exist");
+                    }
+                } else {
+                    Log.e("messagingActivity", "User data does not exist");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("messagingActivity", "Error loading user data: " + databaseError.getMessage());
             }
         });
-
     }
 
 
+    private void initiateVideoCall() {
+
+        videocall.setIsVideoCall(true);
+        videocall.setResourceID("Welove_ResId"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        videocall.setInvitees(Collections.singletonList(new ZegoUIKitUser(otherUser,rname)));
+       String sid=currentUser.getUid();
+        sendNotification(sid,otherUser,otherUser,"Incoming Video Call");
+    }
+
+    private void initiateVoiceCall() {
+        audiocall.setIsVideoCall(false);
+        audiocall.setResourceID("Welove_ResId"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        audiocall.setInvitees(Collections.singletonList(new ZegoUIKitUser(otherUser,rname)));
+         String sid=currentUser.getUid();
+        sendNotification(sid,otherUser,otherUser,"Incoming Audio Call");
+    }
     public interface BlockCheckCallback {
         void onResult(boolean isBlocked);
     }
@@ -262,8 +415,6 @@ public class messagingActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
                     username.setText(user.getName());
-
-                    // Ensure the activity is still valid before attempting to load the image
                     if (!isFinishing() && !isDestroyed()) {
                         if ("default".equals(user.getImageurl())) {
                             profile_image.setImageResource(R.drawable.defaultimage);
@@ -271,7 +422,6 @@ public class messagingActivity extends AppCompatActivity {
                             Glide.with(messagingActivity.this).load(user.getImageurl()).into(profile_image);
                         }
                     }
-                    // Check if the current user or the other user is blocked
                     checkBlockingStatus(currentUser.getUid(), userid);
                     readMessages(currentUser.getUid(), userid, user.getImageurl());
                 }
@@ -310,11 +460,13 @@ public class messagingActivity extends AppCompatActivity {
                             updateUIForBlockedState(false, false);
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -326,8 +478,8 @@ public class messagingActivity extends AppCompatActivity {
             // Both users have blocked each other
             recyclerView_c.setVisibility(View.GONE);
             msgData.setVisibility(View.GONE);
-            VideoCall.setVisibility(View.GONE);
-            AudioCall.setVisibility(View.GONE);
+            videocall.setVisibility(View.GONE);
+            audiocall.setVisibility(View.GONE);
             blockedText.setVisibility(View.VISIBLE);
             blockedText.setText("You both have blocked each other. Messaging is disabled.");
             editText.setEnabled(false);
@@ -335,8 +487,8 @@ public class messagingActivity extends AppCompatActivity {
             // The current user is blocked by the other user
             recyclerView_c.setVisibility(View.GONE);
             msgData.setVisibility(View.GONE);
-            VideoCall.setVisibility(View.GONE);
-            AudioCall.setVisibility(View.GONE);
+            videocall.setVisibility(View.GONE);
+            audiocall.setVisibility(View.GONE);
             blockedText.setVisibility(View.VISIBLE);
             blockedText.setText("You have blocked this user. You can't send or receive messages.");
             editText.setEnabled(false);
@@ -344,8 +496,8 @@ public class messagingActivity extends AppCompatActivity {
             // The current user has blocked the other user
             recyclerView_c.setVisibility(View.GONE);
             msgData.setVisibility(View.GONE);
-            VideoCall.setVisibility(View.GONE);
-            AudioCall.setVisibility(View.GONE);
+            videocall.setVisibility(View.GONE);
+            audiocall.setVisibility(View.GONE);
             blockedText.setVisibility(View.VISIBLE);
             blockedText.setText("You are blocked by the other user. They can't send or receive messages from you.");
             editText.setEnabled(false);
@@ -353,8 +505,8 @@ public class messagingActivity extends AppCompatActivity {
             // No one has blocked anyone
             recyclerView_c.setVisibility(View.VISIBLE);
             msgData.setVisibility(View.VISIBLE);
-            VideoCall.setVisibility(View.VISIBLE);
-            AudioCall.setVisibility(View.VISIBLE);
+            videocall.setVisibility(View.VISIBLE);
+            audiocall.setVisibility(View.VISIBLE);
             blockedText.setVisibility(View.GONE);
             editText.setEnabled(true);
         }
@@ -423,7 +575,39 @@ public class messagingActivity extends AppCompatActivity {
                     // Handle possible errors
                 }
             });
+            if(type=="text")
+               message=editText.getText().toString();
+            else
+               message="image";
+            sendNotification(currentUser.getUid(), otherUser,message,"you have new message");
         }
+    }
+
+    public void sendNotification(String suid, String ruid,String body,String title) {
+
+        FirebaseDatabase.getInstance().getReference("users").child(otherUser).child("fcmToken").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                receiver_token = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FcmNotificationSender notificationsSender =
+                        new FcmNotificationSender(receiver_token, title, body, messagingActivity.this);
+
+                notificationsSender.sendNotification();
+
+            }
+        }, 1000);
     }
 
 
@@ -569,6 +753,7 @@ public class messagingActivity extends AppCompatActivity {
             }
         }
     }
+
     private void handleCroppedImageResult(@Nullable Intent data) {
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -582,6 +767,7 @@ public class messagingActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to get cropped image", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void handleImageResult(int requestCode, @Nullable Intent data) {
         Uri fileUri = null;
 
@@ -602,6 +788,7 @@ public class messagingActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
         }
     }
+
     private Uri getImageUri(Context context, Bitmap image) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -616,7 +803,8 @@ public class messagingActivity extends AppCompatActivity {
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -628,7 +816,8 @@ public class messagingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         typingRef.child(userid).child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
@@ -690,11 +879,28 @@ public class messagingActivity extends AppCompatActivity {
                         online.setVisibility(View.VISIBLE);
                         lastSeen.setVisibility(View.GONE);
                     } else {
-                       online.setVisibility(View.GONE);
+                        online.setVisibility(View.GONE);
                         lastSeen.setVisibility(View.VISIBLE);
+                        DatabaseReference userlastSeenRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+                        userlastSeenRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getValue(User.class);
+                                if (user != null) {
+                                    // Assuming status is a Boolean, if not adjust comparison
+                                    String lastseen = user.getLastSeen();
+                                    lastSeen.setText("Last Seen "+lastseen);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e("FirebaseError", databaseError.getMessage());
+                            }
+                        });
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle the error
@@ -728,9 +934,12 @@ public class messagingActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-       // reference.removeEventListener(seenListener);
+        // reference.removeEventListener(seenListener);
     }
+
+
 }

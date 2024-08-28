@@ -31,10 +31,10 @@ import java.util.Map;
 
 public class LocationActivity extends AppCompatActivity {
 
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private FusedLocationProviderClient fusedLocationClient;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     private Button allowLocationButton;
 
     @Override
@@ -66,7 +66,7 @@ public class LocationActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
             return false;
         }
-        // Permission is already granted
+
         return true;
     }
 

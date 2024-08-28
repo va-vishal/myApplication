@@ -35,6 +35,7 @@ public class PreferedGenderActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_prefered_gender);
 
+
         recyclerViewGender = findViewById(R.id.recyclerViewGender);
         buttonNext = findViewById(R.id.buttonNext);
 

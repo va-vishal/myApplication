@@ -21,9 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import org.jitsi.meet.sdk.JitsiMeetActivity;
-import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
-import java.net.URL;
+
 import in.demo.myapplication.Message.messagingActivity;
 import in.demo.myapplication.Model.VcModel;
 import in.demo.myapplication.R;
@@ -170,7 +168,7 @@ public class VideoCallinComing extends AppCompatActivity {
             model.setKey(sender_uid + receiver_uid);
             model.setResponse(response);
             referenceVc.child("res").setValue(model);
-            joinMeeting();
+            //joinMeeting();
         } else if (response.equals("no")) {
             model.setKey(sender_uid + receiver_uid);
             model.setResponse(response);
@@ -186,21 +184,7 @@ public class VideoCallinComing extends AppCompatActivity {
         }, 3000);
     }
 
-    private void joinMeeting() {
-        try {
-            String roomName = sender_uid+receiver_uid;
-            URL serverURL =new URL("https://meet.jit.si");
 
-            JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
-                    .setServerURL(serverURL)
-                    .setRoom("test123")
-                    .build();
-
-            JitsiMeetActivity.launch(VideoCallinComing.this, options);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onBackPressed() {

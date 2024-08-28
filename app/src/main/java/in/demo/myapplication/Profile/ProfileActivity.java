@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -34,18 +35,20 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.demo.myapplication.Message.messagingActivity;
 import in.demo.myapplication.Model.User;
 import in.demo.myapplication.R;
 
 public class ProfileActivity extends AppCompatActivity {
 
     // Views
-    private TextView prefText, dobText, maritalText, heightText, salaryText, descText, name, age, locationArea, locationState, jobType, educationText, dietText, genderText, religionText, motherTongueText, smokingText, drinkingText, personalityText;
-    private ImageView prefImage, locationImage,back_image, dobImage, heightImage, maritalImage, salaryImage, descImage, jobImage, educationImage, dietImage, genderImage, religionImage, motherTongueImage, smokingImage, drinkingImage, personalityImage;
+    private TextView prefText, dobText, maritalText, descText, name, age, locationArea, locationState, jobType, educationText, genderText, motherTongueText;
+    private ImageView prefImage, locationImage,back_image, dobImage, maritalImage, descImage, jobImage, educationImage, genderImage, motherTongueImage;
     private FirebaseUser firebaseUser;
     private CardView  cardImage4,cardImage1,cardImage2,cardImage3,backCard;
     private String profileid;
     private RoundedImageView image1,image2,image3,image4;
+    private Button message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             // Check if firebaseUser is not null
             if (firebaseUser != null) {
-                profileid = firebaseUser.getUid(); // Use the current user's ID if no profile ID is provided
+                profileid = firebaseUser.getUid();
             }
         }
         initializeViews();
@@ -68,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
     // Initialize views
     private void initializeViews() {
+        message=findViewById(R.id.messageButton);
         prefText=findViewById(R.id.preftext);
         prefImage=findViewById(R.id.prefimage);
         cardImage1=findViewById(R.id.card);
@@ -86,32 +90,18 @@ public class ProfileActivity extends AppCompatActivity {
         locationState = findViewById(R.id.locationstate);
         jobType = findViewById(R.id.jobType);
         educationText = findViewById(R.id.educationtext);
-        dietText = findViewById(R.id.diettext);
         genderText = findViewById(R.id.gendertext);
-        religionText = findViewById(R.id.religiontext);
         motherTongueText = findViewById(R.id.mother_tonguetext);
-        smokingText = findViewById(R.id.smokingtext);
-        drinkingText = findViewById(R.id.drinkingtext);
-        personalityText = findViewById(R.id.personalitytext);
         dobText = findViewById(R.id.dobtext);
-        heightText = findViewById(R.id.heighttext);
-        salaryText = findViewById(R.id.salarytext);
         maritalText = findViewById(R.id.maritaltext);
         descText = findViewById(R.id.desctext);
         locationImage = findViewById(R.id.locationimage);
         jobImage = findViewById(R.id.jobImage);
         educationImage = findViewById(R.id.educationimage);
-        dietImage = findViewById(R.id.dietimage);
         genderImage = findViewById(R.id.genderImage);
-        religionImage = findViewById(R.id.religionImage);
         motherTongueImage = findViewById(R.id.mother_tongueImage);
-        smokingImage = findViewById(R.id.smokingImage);
-        drinkingImage = findViewById(R.id.drinkingImage);
-        personalityImage = findViewById(R.id.personalityImage);
         dobImage = findViewById(R.id.dobimage);
-        heightImage = findViewById(R.id.heightimage);
         maritalImage = findViewById(R.id.maritalimage);
-        salaryImage = findViewById(R.id.salryimage);
         descImage = findViewById(R.id.descImage);
         cardImage1.setVisibility(View.GONE);
         cardImage2.setVisibility(View.GONE);
@@ -120,6 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         image2.setVisibility(View.GONE);
         image3.setVisibility(View.GONE);
         image4.setVisibility(View.GONE);
+
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,8 +170,15 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ProfileActivity.this, messagingActivity.class);
+                intent.putExtra("userid", profileid);
+                startActivity(intent);
+            }
+        });
     }
-
     private void getImageUrl(ImageView imageView, ImageUrlCallback callback) {
         if (profileid != null) {
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(profileid);
@@ -231,24 +229,13 @@ public class ProfileActivity extends AppCompatActivity {
                             if (genderText != null) genderText.setText(userProfile.getGender());
                             if (age != null) age.setText(userProfile.getAge());
                             if (dobText != null) dobText.setText(userProfile.getDob());
-                            if (heightText != null) heightText.setText(userProfile.getHeight());
                             if (educationText != null)
                                 educationText.setText(userProfile.getEducationLevel());
                             if (jobType != null) jobType.setText(userProfile.getJobType());
-                            if (religionText != null)
-                                religionText.setText(userProfile.getReligion());
                             if (motherTongueText != null)
                                 motherTongueText.setText(userProfile.getMotherTongue());
-                            if (salaryText != null) salaryText.setText(userProfile.getSalary());
                             if (maritalText != null)
                                 maritalText.setText(userProfile.getMaritalStatus());
-                            if (smokingText != null)
-                                smokingText.setText(userProfile.getSmokingStatus());
-                            if (drinkingText != null)
-                                drinkingText.setText(userProfile.getDrinkingStatus());
-                            if (personalityText != null)
-                                personalityText.setText(userProfile.getPersonality());
-                            if (dietText != null) dietText.setText(userProfile.getDiet());
                             if (descText != null) descText.setText(userProfile.getDescription());
                             if (locationArea != null) locationArea.setText(userProfile.getArea());
                             if (locationState != null)
@@ -291,18 +278,10 @@ public class ProfileActivity extends AppCompatActivity {
         loadImageForMaritalStatus(userProfile.getMaritalStatus());
         loadImageForJob(userProfile.getJobType());
         loadImageForEducation(userProfile.getEducationLevel());
-        loadImageForDiet(userProfile.getDiet());
         loadImageForGender(userProfile.getGender());
-        loadImageForReligion(userProfile.getReligion());
         loadImageForMotherTongue(userProfile.getMotherTongue());
-        loadImageForSmoking(userProfile.getSmokingStatus());
-        loadImageForDrinking(userProfile.getDrinkingStatus());
-        loadImageForPersonality(userProfile.getPersonality());
         loadImageForPrefGender(userProfile.getPrefGender());
-
         loadImageForCondition(dobImage, userProfile.getDob(), R.drawable.calendar_month);
-        loadImageForCondition(heightImage, userProfile.getHeight(), R.drawable.heigh);
-        loadImageForCondition(salaryImage, userProfile.getSalary(), R.drawable.rupee);
         loadImageForCondition(descImage, userProfile.getDescription(), R.drawable.search);
     }
     private void loadImageForCondition(ImageView imageView, String condition, int drawableResId) {
@@ -436,36 +415,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     }
-    private void loadImageForDiet(String diet) {
-        if (diet != null && dietImage != null) {
-            // Ensure the activity is not finishing or destroyed before loading the image
-            if (!isFinishing() && !isDestroyed()) {
-                switch (diet) {
-                    case "Vegetarian":
-                        Glide.with(this).load(R.drawable.vegetarian).into(dietImage);
-                        break;
-                    case "Vegan":
-                        Glide.with(this).load(R.drawable.vegan).into(dietImage);
-                        break;
-                    case "Non-Vegetarian":
-                        Glide.with(this).load(R.drawable.nonvegetarian).into(dietImage);
-                        break;
-                    case "Pescatarian":
-                        Glide.with(this).load(R.drawable.pescatarian).into(dietImage);
-                        break;
-                    case "Paleo":
-                        Glide.with(this).load(R.drawable.paleo).into(dietImage);
-                        break;
-                    case "Keto":
-                        Glide.with(this).load(R.drawable.keto).into(dietImage);
-                        break;
-                    default:
-                        Glide.with(this).load(R.drawable.defaultimage).into(dietImage);
-                        break;
-                }
-            }
-        }
-    }
+
     private void loadImageForGender(String gender) {
         if(gender!=null&&genderImage!=null) {
             if (!isFinishing() && !isDestroyed()) {
@@ -489,37 +439,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     }
-    private void loadImageForReligion(String religion) {
-        if(religion!=null&&religionImage!=null) {
-            if (!isFinishing() && !isDestroyed()) {
-            switch (religion) {
-                case "Christianity":
-                    Glide.with(this).load(R.drawable.christianity).into(religionImage);
-                    break;
-                case "Islam":
-                    Glide.with(this).load(R.drawable.islam).into(religionImage);
-                    break;
-                case "Hinduism":
-                    Glide.with(this).load(R.drawable.hinduism).into(religionImage);
-                    break;
-                case "Buddhism":
-                    Glide.with(this).load(R.drawable.buddhism).into(religionImage);
-                    break;
-                case "Judaism":
-                    Glide.with(this).load(R.drawable.judaism).into(religionImage);
-                    break;
-                case "Sikhism":
-                    Glide.with(this).load(R.drawable.sikhism).into(religionImage);
-                    break;
-                case "Other":
-                    Glide.with(this).load(R.drawable.other_religion).into(religionImage);
-                    break;
-                default:
-                    Glide.with(this).load(R.drawable.defaultimage).into(religionImage);
-                    break;
-            }}
-        }
-    }
+
     private void loadImageForMotherTongue(String motherTongue) {
         if(motherTongue!=null&&motherTongueImage!=null) {
             if (!isFinishing() && !isDestroyed()) {
@@ -573,80 +493,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     }
-    private void loadImageForSmoking(String smoking) {
-        if(smoking!=null&&smokingImage!=null) {
-            if (!isFinishing() && !isDestroyed()) {
-                switch (smoking) {
-                    case "Never":
-                        Glide.with(this).load(R.drawable.never).into(smokingImage);
-                        break;
-                    case "I Smoke":
-                        Glide.with(this).load(R.drawable.smoking).into(smokingImage);
-                        break;
-                    case "Smoke Occuasinally":
-                        Glide.with(this).load(R.drawable.occuasinally).into(smokingImage);
-                        break;
-                    case "Plan to Quit Smoking":
-                        Glide.with(this).load(R.drawable.quitsmoking).into(smokingImage);
-                        break;
-                    default:
-                        Glide.with(this).load(R.drawable.defaultimage).into(smokingImage);
-                        break;
-                }
-            }
-        }
-    }
-    private void loadImageForDrinking(String drinking) {
-        if(drinking!=null&&drinkingImage!=null) {
-            if (!isFinishing() && !isDestroyed()) {
-                switch (drinking) {
-                    case "Teetotaller":
-                        Glide.with(this).load(R.drawable.teetotaller).into(drinkingImage);
-                        break;
-                    case "Drink Socially":
-                        Glide.with(this).load(R.drawable.social).into(drinkingImage);
-                        break;
-                    case "Drink Regularly":
-                        Glide.with(this).load(R.drawable.regular).into(drinkingImage);
-                        break;
-                    case "Plan to Quit Drinking":
-                        Glide.with(this).load(R.drawable.plantoquit).into(drinkingImage);
-                        break;
-                    case "Drink Occuasinally":
-                        Glide.with(this).load(R.drawable.occuasinally).into(drinkingImage);
-                        break;
-                    // Add other cases here...
-                    default:
-                        Glide.with(this).load(R.drawable.defaultimage).into(drinkingImage);
-                        break;
-                }
-            }
-        }
-    }
-    private void loadImageForPersonality(String personality) {
-        if(personalityImage!=null&&personality!=null) {
-            if (!isFinishing() && !isDestroyed()) {
-                switch (personality) {
-                    case "Extrovert":
-                        Glide.with(this).load(R.drawable.extrovert).into(personalityImage);
-                        break;
-                    case "Introvert":
-                        Glide.with(this).load(R.drawable.introvert).into(personalityImage);
-                        break;
-                    case "Ambivert":
-                        Glide.with(this).load(R.drawable.ambivert).into(personalityImage);
-                        break;
-                    case "Omnivert":
-                        Glide.with(this).load(R.drawable.omnivert).into(personalityImage);
-                        break;
-                    // Add other cases here...
-                    default:
-                        Glide.with(this).load(R.drawable.defaultimage).into(personalityImage);
-                        break;
-                }
-            }
-        }
-    }
+
     private void showFullScreenImage(View rootView, String imageUrl) {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);

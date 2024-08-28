@@ -157,6 +157,25 @@
 						android:textColor="@color/black"
 						android:textSize="20sp" />
 					</androidx.cardview.widget.CardView>
+					<androidx.cardview.widget.CardView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						app:cardCornerRadius="8dp"
+						app:cardElevation="2dp"
+						android:layout_marginStart="08dp"
+						android:layout_marginEnd="08dp"
+						android:layout_marginTop="8dp">
+
+						<TextView
+							android:id="@+id/prefgender"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center_vertical"
+							android:padding="15dp"
+							android:text="Preferred Gender"
+							android:textSize="20sp"
+							android:textColor="@color/black" />
+					</androidx.cardview.widget.CardView>
 
 					<androidx.cardview.widget.CardView
 						android:layout_width="match_parent"
@@ -209,27 +228,6 @@
 						android:layout_marginTop="8dp">
 
 					<TextView
-						android:id="@+id/religion"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Religion"
-						android:textSize="20sp"
-						android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
-
-
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-
-					<TextView
 						android:id="@+id/mothertongue"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -241,121 +239,6 @@
 
 					</androidx.cardview.widget.CardView>
 
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-
-					<TextView
-						android:id="@+id/smoking"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Smoking"
-						android:textSize="20sp"
-						android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
-
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-
-					<TextView
-						android:id="@+id/drinking"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Drinking"
-						android:textSize="20sp"
-						android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
-
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-
-					<TextView
-						android:id="@+id/personality"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Personality"
-						android:textSize="20sp"
-						android:textColor="@color/black" />
-
-					</androidx.cardview.widget.CardView>
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-					<TextView
-						android:id="@+id/diet"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Diet"
-						android:textSize="20sp"
-						android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-					<TextView
-						android:id="@+id/partnerpreferences"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_vertical"
-						android:padding="15dp"
-						android:text="Partner Preferences"
-						android:textSize="20sp"
-						android:textColor="@color/black"
-						android:visibility="gone" />
-					</androidx.cardview.widget.CardView>
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
-						<TextView
-							android:id="@+id/height"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:gravity="center_vertical"
-							android:padding="15dp"
-							android:text="Height"
-							android:textSize="20sp"
-							android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
 
 					<androidx.cardview.widget.CardView
 						android:layout_width="match_parent"
@@ -399,25 +282,7 @@
 
 					</androidx.cardview.widget.CardView>
 
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
 
-						<TextView
-							android:id="@+id/salary"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:gravity="center_vertical"
-							android:padding="15dp"
-							android:text="Salary"
-							android:textSize="20sp"
-							android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
 
 					<androidx.cardview.widget.CardView
 						android:layout_width="match_parent"
@@ -439,25 +304,7 @@
 							android:textColor="@color/black" />
 					</androidx.cardview.widget.CardView>
 
-					<androidx.cardview.widget.CardView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						app:cardCornerRadius="8dp"
-						app:cardElevation="2dp"
-						android:layout_marginStart="08dp"
-						android:layout_marginEnd="08dp"
-						android:layout_marginTop="8dp">
 
-						<TextView
-							android:id="@+id/prefgender"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:gravity="center_vertical"
-							android:padding="15dp"
-							android:text="Preferred Gender"
-							android:textSize="20sp"
-							android:textColor="@color/black" />
-					</androidx.cardview.widget.CardView>
 
 					<androidx.cardview.widget.CardView
 						android:layout_width="match_parent"

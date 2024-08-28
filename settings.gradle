@@ -17,9 +17,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases"
-        }
+        maven { url 'https://storage.zego.im/maven' }
+        maven { url 'https://www.jitpack.io' }
         maven {
             url "https://maven.google.com"
         }
@@ -28,3 +27,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include ':app'
+include ':nativetemplates'

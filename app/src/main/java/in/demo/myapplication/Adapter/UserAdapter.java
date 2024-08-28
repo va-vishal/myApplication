@@ -22,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -82,12 +83,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             updateUI(holder, user);
             setupClickListeners(holder, user);
         }
+        holder.message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, messagingActivity.class);
+                intent.putExtra("userid", user.getId());
+                context.startActivity(intent);
+            }
+        });
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);
             intent.putExtra("publisherid", user.getId());
-            context.startActivity(intent);
             addNotification(user.getId(), "visited", "Your profile was visited", " has visited your profile");
             handleProfileVisit(user.getId());
+            context.startActivity(intent);
             sendUserActionNotification(user, "visit");
         });
 
@@ -267,7 +276,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     private void updateButtonStates(UserViewHolder holder, User user) {
-        holder.likeButton.setImageResource(likedUsers.contains(user.getId()) ? R.drawable.liked : R.drawable.like);
+        holder.likeButton.setImageResource(likedUsers.contains(user.getId()) ? R.drawable.liked : R.drawable.heart);
         holder.dislikeButton.setImageResource(dislikedUsers.contains(user.getId()) ? R.drawable.disliked : R.drawable.dislike);
     }
 
@@ -631,18 +640,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView image1;
-        private final ImageView image2;
-        private final ImageView image3,profileview;
-        private final ImageView image4;
+        private final ImageView image1,image2,image3,image4;
         private final ViewFlipper viewFlipper;
         private final TextView username;
         private final TextView age;
         private final TextView job;
         private final TextView state;
         private final TextView kmtext;
-        private final ImageView likeButton;
-        private final ImageView dislikeButton;
+        private final FloatingActionButton likeButton,dislikeButton,profileview,message;
         private final ImageView online;
         private final ImageView offline;
 
@@ -655,14 +660,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             viewFlipper = itemView.findViewById(R.id.viewFlipper);
             username = itemView.findViewById(R.id.username);
             age = itemView.findViewById(R.id.age);
-            profileview = itemView.findViewById(R.id.profileview);
             job = itemView.findViewById(R.id.job);
             state = itemView.findViewById(R.id.state);
             kmtext = itemView.findViewById(R.id.kmtext);
-            likeButton = itemView.findViewById(R.id.like_button);
-            dislikeButton = itemView.findViewById(R.id.dislike_button);
             online = itemView.findViewById(R.id.online_status);
             offline = itemView.findViewById(R.id.offline_status);
+            profileview = itemView.findViewById(R.id.profileview);
+            likeButton = itemView.findViewById(R.id.like_button);
+            dislikeButton = itemView.findViewById(R.id.dislike_button);
+            message = itemView.findViewById(R.id.message);
+
         }
     }
 }

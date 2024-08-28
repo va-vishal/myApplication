@@ -23,6 +23,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import in.demo.myapplication.Calls.VideoCallinComing;
 import in.demo.myapplication.HomeActivity;
+import in.demo.myapplication.Message.messagingActivity;
 import in.demo.myapplication.R;
 
 
@@ -34,11 +35,8 @@ public class MessageService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         Log.d("FCM", "Refreshed token: " + token);
-
-        // Save the refreshed token to the database
         saveTokenToDatabase(token);
     }
-
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
@@ -48,23 +46,16 @@ public class MessageService extends FirebaseMessagingService {
         if (vibrator != null) {
             vibrator.vibrate(pattern, -1);
         }
-        
-        String type=message.getNotification().getTitle();
-        String body=message.getNotification().getBody();
+        Bitmap largeicon= BitmapFactory.decodeResource(getResources(),R.drawable.lo);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Notification");
+        String type = message.getNotification().getTitle();
+        Intent resultIntent;
 
-        if (type.equals("Incoming Video Call")){
-            startCall(body);
-            
-
-        }else{
-            
-            Bitmap largeicon= BitmapFactory.decodeResource(getResources(),R.drawable.lo);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Notification");
-
-            Intent resultIntent = new Intent(this, HomeActivity.class);
-
-           // resultIntent.putExtra("caller_id", message.getData().get("caller_id")); // Pass any extra data if needed
+        if (type.equals("Incoming Video Call") || type.equals("Incoming Audio Call")) {
+            resultIntent = new Intent(this, messagingActivity.class);
+        } else {
+            resultIntent = new Intent(this, HomeActivity.class);
+        }
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             builder.setContentTitle(message.getNotification() != null ? message.getNotification().getTitle() : "No Title");
@@ -75,7 +66,7 @@ public class MessageService extends FirebaseMessagingService {
             builder.setLargeIcon(largeicon);
             builder.setVibrate(pattern);
             builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-            builder.setContentIntent(pendingIntent); // Set the intent to be triggered when the notification is clicked
+            builder.setContentIntent(pendingIntent);
 
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager != null) {
@@ -100,17 +91,6 @@ public class MessageService extends FirebaseMessagingService {
 
                 notificationManager.notify(100, builder.build());
             }
-        }
-        
-        
-    }
-
-    private void startCall(String body)
-    {
-        Intent intent= new Intent(this, VideoCallinComing.class);
-        intent.putExtra("sender_id",body);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     private void saveTokenToDatabase(String token) {

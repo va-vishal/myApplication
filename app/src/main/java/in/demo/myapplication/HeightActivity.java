@@ -47,7 +47,7 @@ public class HeightActivity extends AppCompatActivity implements HeightAdapter.O
         recyclerViewHeight.setLayoutManager(new LinearLayoutManager(this));
 
         heightList = new ArrayList<>();
-        String[] heights = getResources().getStringArray(R.array.height_options);
+        String[] heights = getResources().getStringArray(R.array.gender_options);
 
         for (String height : heights) {
             heightList.add(new HeightItem(height));

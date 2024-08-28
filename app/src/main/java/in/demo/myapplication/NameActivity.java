@@ -39,7 +39,7 @@ public class NameActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameEditText.getText().toString().trim();
+                String name = nameEditText.getText().toString();
                 if (TextUtils.isEmpty(name)) {
                     nameEditText.setError("Please enter your name");
                     return;

@@ -3,37 +3,90 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:background="@drawable/background_gradient"
 	tools:context=".Authentication.LoginActivity1">
 
-	<EditText
-		android:id="@+id/identifier"
+
+	<TextView
+		android:id="@+id/text"
+		android:layout_width="match_parent"
+		android:layout_height="99dp"
+		android:fontFamily="cursive"
+		android:gravity="center_vertical|center_horizontal"
+		android:text="WeLove"
+		android:textStyle="bold"
+		android:textColor="@color/black"
+		android:layout_marginTop="100dp"
+		android:textSize="30sp" />
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/identifiercard"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/ccp"
-		android:layout_margin="20dp"
-		android:layout_marginTop="-40dp"
-		android:hint="Email or Mobile Number"
-		android:inputType="text"
-		android:padding="10dp" />
+		android:layout_marginHorizontal="24dp"
+		android:layout_below="@id/text"
+		android:layout_marginBottom="16dp"
+		android:layout_marginTop="40dp"
+		android:elevation="4dp"
+		app:cardCornerRadius="30dp">
 
-	<EditText
-		android:id="@+id/password"
+		<EditText
+			android:id="@+id/identifier"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@android:color/transparent"
+			android:hint="Email"
+			android:inputType="text"
+			android:padding="16dp"
+			android:textColor="@color/black"
+			android:textSize="16sp" />
+	</androidx.cardview.widget.CardView>
+
+	<!-- CardView for Password -->
+	<androidx.cardview.widget.CardView
+		android:id="@+id/passwordCard"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:hint="Password"
-		android:inputType="textPassword"
-		android:padding="10dp"
-		android:layout_below="@id/identifier"
-		android:layout_margin="20dp"/>
+		android:layout_below="@id/identifiercard"
+		android:layout_marginHorizontal="24dp"
+		android:layout_marginBottom="24dp"
 
+		android:elevation="4dp"
+		app:cardCornerRadius="30dp">
+
+		<EditText
+			android:id="@+id/password"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Password"
+			android:padding="16dp"
+			android:textColor="@color/black"
+			android:textSize="16sp"
+			android:inputType="textPassword"
+			android:background="@android:color/transparent"
+			android:drawableEnd="@drawable/eye_off_outline"
+		android:drawablePadding="10dp" />
+
+	</androidx.cardview.widget.CardView>
+
+	<!-- Login Button -->
 	<Button
 		android:id="@+id/login"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Login"
-		android:layout_below="@id/password"
-		android:layout_margin="20dp"/>
+		android:layout_below="@id/passwordCard"
+		android:layout_marginHorizontal="24dp"
+		android:layout_marginBottom="16dp"
+		android:text="Sign In"
+		android:textSize="16sp"
+		android:textColor="@color/black"
+		android:backgroundTint="@color/lightblue"
+		android:background="@drawable/allbackgroundbuttons"
+		android:paddingVertical="12dp"
+		android:elevation="4dp" />
 
+	<!-- ProgressBar -->
 	<ProgressBar
 		android:id="@+id/progressBar"
 		android:layout_width="wrap_content"
@@ -41,24 +94,115 @@
 		android:layout_below="@id/login"
 		android:layout_centerHorizontal="true"
 		android:visibility="gone"
-		android:layout_margin="20dp"/>
+		android:layout_margin="20dp" />
 
+	<!-- Register TextView -->
 	<TextView
 		android:id="@+id/register"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Don't have an account? Register"
+		android:layout_below="@+id/login"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="24dp"
+		android:layout_marginTop="20dp"
+		android:text="Register"
 		android:textColor="@color/black"
-		android:layout_below="@id/progressBar"
-		android:layout_centerHorizontal="true"
-		android:layout_margin="20dp"
-		android:padding="10dp"/>
+		android:textSize="16sp"
+		android:fontFamily="sans-serif-medium"
+		android:padding="10dp" />
 
-	<com.hbb20.CountryCodePicker
-		android:id="@+id/ccp"
+	<!-- Forgot Password TextView -->
+	<TextView
+		android:id="@+id/forgotpassword"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/login"
 		android:layout_alignParentStart="true"
+		android:layout_marginStart="24dp"
 		android:layout_marginTop="20dp"
-		android:layout_marginStart="20dp"/>
+		android:text="Forgot password"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		android:fontFamily="sans-serif-medium"
+		android:padding="10dp" />
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/signinwithgoogle"
+		android:layout_above="@+id/signinwithtwitter"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="24dp"
+		android:layout_marginBottom="16dp"
+		android:layout_marginTop="40dp"
+		android:elevation="4dp"
+		android:padding="02dp"
+		app:cardCornerRadius="30dp">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical|center_horizontal"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/google_icon"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_marginEnd="8dp"
+				android:src="@drawable/googlee" />
+
+			<Button
+				android:id="@+id/loginwithgoogle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@android:color/transparent"
+				android:padding="0dp"
+				android:text="SIGN IN WITH GOOGLE"
+				android:textColor="@color/black"
+				android:textSize="16sp" />
+
+		</LinearLayout>
+
+
+	</androidx.cardview.widget.CardView>
+	<androidx.cardview.widget.CardView
+		android:id="@+id/signinwithtwitter"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginHorizontal="24dp"
+		android:layout_marginBottom="30dp"
+		android:elevation="4dp"
+		android:padding="12dp"
+		android:backgroundTint="@color/white"
+		app:cardCornerRadius="30dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical|center_horizontal">
+
+			<ImageView
+				android:id="@+id/twitter_icon"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:src="@drawable/twitter"
+				android:layout_marginEnd="8dp" />
+
+			<Button
+				android:id="@+id/loginwithtwitter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="SIGN IN WITH GOOGLE"
+				android:textSize="16sp"
+				android:textColor="@color/black"
+				android:background="@android:color/transparent"
+				android:padding="0dp" />
+
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+
+
 </RelativeLayout>
